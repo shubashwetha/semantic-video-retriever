@@ -30,7 +30,7 @@ Steps Involved
 * The collected videos are placed in the video_data/raw_videos/ directory.
 * Multiple formats such as .mp4, .mov, and .avi are accepted.
 
-**Preprocessing of Videos**<br>
+**2. Preprocessing of Videos**<br>
 To prepare the videos for semantic indexing and retrieval, the following preprocessing steps are applied:
 1.  **Format Standardization**
 All videos are converted to the .mp4 format using FFmpeg, so that a consistent codec is ensured for downstream processing.
@@ -38,3 +38,12 @@ All videos are converted to the .mp4 format using FFmpeg, so that a consistent c
 Each video is divided into fixed-length clips (e.g., 5 seconds per clip) using OpenCV. These shorter segments are treated as the searchable units.
 3.  **Output Organization**
 The converted .mp4 files are stored in video_data/converted_videos/. The scene clips are stored in video_data/scenes/. The time taken to process each video is logged to monitor performance and efficiency.
+
+**3. Extraction of CLIP Embeddings**<br>
+To semantically index each scene clip for later search:<br>
+1. **Middle Frame Extraction**
+The center frame of each 5-second clip is extracted using OpenCV to represent the scene visually. <br>
+2. **Embedding Generation**
+The frame is passed through OpenAI’s CLIP model (clip-vit-base-patch32) to produce a 512-dimensional embedding.<br>
+3. **Output Organization**
+Embeddings are saved as .npy files in the embeddings/ directory, with filenames matching the input clip.
